@@ -1,0 +1,18 @@
+table {
+    margin: auto; /* Выравниваем таблицу по центру окна  */
+    font-size: 14pt;
+}
+
+td {
+    text-align: center; /* Выравниваем текст по центру ячейки */
+    padding: 3px;
+}
+
+th {
+    text-align: center; /* Выравниваем текст по центру ячейки */
+    padding: 3px;
+}
+
+h2 {
+    text-align: center;
+}

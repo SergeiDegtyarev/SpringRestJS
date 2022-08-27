@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="/static/styles/style_for_edit_pages.css" rel="stylesheet" th:href="@{/styles/style_for_edit_pages.css}">
+    <title>Add user</title>
+</head>
+<body>
+<div>
+    <h2>User creator</h2>
+    <form th:method="POST" th:action="@{/admin}" th:object="${user}">
+        <table>
+            <tr>
+                <td>Username: </td>
+                <td><input type="text" th:field="*{username}" id="username" required placeholder="Username"/></td>
+            </tr>
+            <tr>
+                <td>First name: </td>
+                <td><input type="text" th:field="*{firstName}" id="firstName" required placeholder="Имя"/></td>
+            </tr>
+            <tr>
+                <td>Last name: </td>
+                <td><input type="text" th:field="*{lastName}" id="lastName" required placeholder="Фамилия"/></td>
+            </tr>
+            <tr>
+                <td>Email: </td>
+                <td><input type="text" th:field="*{email}" id="email" required placeholder="Email@mail.ru"/></td>
+            </tr>
+            <tr>
+                <td>Age: </td>
+                <td><input type="number" th:field="*{age}" id="age" required placeholder="20"/></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Save"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
