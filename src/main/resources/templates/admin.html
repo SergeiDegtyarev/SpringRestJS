@@ -25,6 +25,7 @@
             <th>Last name</th>
             <th>Email</th>
             <th>Age</th>
+            <th>Roles</th>
             <th>Action</th>
         </tr>
         <tr th:each="user : ${users}">
@@ -34,6 +35,7 @@
             <td th:utext="${user.getLastName()}"></td>
             <td th:utext="${user.getEmail()}"></td>
             <td th:utext="${user.getAge()}"></td>
+            <td th:utext="${user.getStringRoles()}">
             <td>
                 <a th:href="@{/admin/edit/{userId}(userId=${user.getId()})}">edit</a>
                 <a th:href="@{/admin/delete/{userId}(userId=${user.getId()})}">delete</a>
@@ -41,7 +43,7 @@
         </tr>
     </table>
     <h3>
-        <a th:href="@{/admin}"><pre>User management   </pre></a>
+        <a th:href="@{/admin}">User management</a>
         <a th:href="@{/user}">Your profile</a></h3>
     <h3><a th:href="@{/logout}">Logout</a></h3>
 </div>

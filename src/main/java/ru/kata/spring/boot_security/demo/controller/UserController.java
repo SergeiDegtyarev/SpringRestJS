@@ -22,7 +22,6 @@ public class UserController {
 
     @GetMapping
     public String printInformation(ModelMap model, HttpServletRequest request) {
-        // TODO take user info by username
         model.addAttribute("userObj", userService.loadUserByUsername(request.getRemoteUser()));
         return "user";
     }

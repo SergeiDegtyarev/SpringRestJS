@@ -2,21 +2,17 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -24,32 +20,29 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
 
+    private final RoleDao roleDao;
+
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    protected UserServiceImpl(UserDao userDao, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
+    protected UserServiceImpl(UserDao userDao, RoleDao roleDao, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
+        this.roleDao = roleDao;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Transactional
     @Override
-    public void saveUser(User user, String role) {
-        if (role.equals("ROLE_ADMIN")) {
-            user.addRole(new Role("ROLE_ADMIN"));
-        }
-        user.addRole(new Role("ROLE_USER"));
+    public void saveUser(User user, String[] roles) {
+        user.setRoles(roleDao.getRolesSet(roles));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDao.saveUser(user);
     }
 
     @Transactional
     @Override
-    public void updateUser(User user, String role) {
-        if (role.equals("ROLE_ADMIN")) {
-            user.addRole(new Role("ROLE_ADMIN"));
-        }
-        user.addRole(new Role("ROLE_USER"));
+    public void updateUser(User user, String[] roles) {
+        user.setRoles(roleDao.getRolesSet(roles));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDao.updateUser(user);
     }
@@ -80,12 +73,6 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()) // TODO What is it?
-        );
-    }
-
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toSet());
+        return user;
     }
 }

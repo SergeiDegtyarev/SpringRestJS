@@ -32,6 +32,19 @@
                 <td><input type="number" th:field="*{age}" id="age" required placeholder="20"/></td>
             </tr>
             <tr>
+                <td>Password: </td>
+                <td><input type="password" name="password" id="password" required placeholder="password"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <select size="3" multiple="multiple" name="roles" id="roles">
+                        <option disabled>Roles:</option>
+                        <option value="ROLE_ADMIN">Admin</option>
+                        <option selected value="ROLE_USER">User</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2"><input type="submit" value="Update"></td>
             </tr>
         </table>

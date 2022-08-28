@@ -5,10 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -36,11 +33,9 @@ public class User implements UserDetails {
     private byte age;
 
     @Column(name = "password")
-    private String password = "12345678"; // TODO DELETE
+    private String password;
 
-    @ManyToMany(
-            fetch = FetchType.EAGER
-    )
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -51,13 +46,12 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String firstName, String lastName, String email, byte age, Set<Role> roles) {
+    public User(String username, String firstName, String lastName, String email, byte age) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.age = age;
-        this.roles = roles;
     }
 
     public boolean isAdmin() {
@@ -106,6 +100,15 @@ public class User implements UserDetails {
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+
+    public String getStringRoles() {
+        String[] strRoles = new String[roles.size()];
+        Object[] objRoles = roles.stream().map(Role::getRoleName).toArray();
+        for (int i = 0; i < roles.size(); i++) {
+            strRoles[i] = (String) objRoles[i];
+        }
+        return String.join(" ", strRoles) ;
     }
 
     public Set<Role> getRoles() {
@@ -172,6 +175,9 @@ public class User implements UserDetails {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", age=" + age +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 }

@@ -1,9 +1,0 @@
-CREATE TABLE user (
-	id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(70) NOT NULL UNIQUE
-);
-    
-    

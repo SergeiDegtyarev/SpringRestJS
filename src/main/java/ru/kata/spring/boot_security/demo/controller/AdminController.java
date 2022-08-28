@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-
 import java.util.List;
 
 
@@ -24,6 +23,7 @@ public class AdminController {
 
     @GetMapping()
     public String printUsers(ModelMap model) {
+        /* Вывод всех пользователей в виде таблицы */
         List<User> usersList = userService.getAllUsers();
         model.addAttribute("users", usersList);
         return "admin";
@@ -32,37 +32,46 @@ public class AdminController {
     @GetMapping("search")
     public String printUser(@RequestParam(value = "id", required = false, defaultValue = "0") long id,
                             ModelMap model) {
+        /* Вывод пользователя при поиске по id */
         model.addAttribute("users", List.of(userService.findUserById(id)));
         return "admin";
     }
 
     @GetMapping("new_user")
     public String newUserForm(ModelMap model) {
+        /* Вывод формы для создания пользователя */
         model.addAttribute("user", new User());
         return "new_user";
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("user") User user) {
-        userService.saveUser(user, "ROLE_ADMIN"); // TODO take role from page
+    public String createUser(@ModelAttribute("user") User user,
+                             @RequestParam(value = "roles") String[] roles) {
+        /* Сохранение пользователя */
+        userService.saveUser(user, roles);
         return "redirect:/admin";
     }
 
     @GetMapping("edit/{id}")
     public String editUserForm(@PathVariable("id") long id, ModelMap model) {
+        /* Вывод формы для редактирования пользователя */
         model.addAttribute("user", userService.findUserById(id));
         return "edit_user";
     }
 
     @PostMapping("edit")
-    public String updateUserInfo(@ModelAttribute("user") User user) {
-        System.out.println(user);
-        userService.updateUser(user, "ROLE_ADMIN"); // TODO take role from page
+    public String updateUserInfo(@ModelAttribute("user") User user,
+                                 @RequestParam(value = "roles") String[] roles,
+                                 @RequestParam("password") String password) {
+        /* Обновление данных пользователя */
+        user.setPassword(password);
+        userService.updateUser(user, roles);
         return "redirect:/admin";
     }
 
     @GetMapping("delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
+         /* Удаление пользователя по id */
          userService.deleteUser(id);
          return "redirect:/admin";
     }

@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface UserService extends UserDetailsService {
 
-    void saveUser(User user, String role);
+    void saveUser(User user, String[] roles);
 
-    void updateUser(User user, String role);
+    void updateUser(User user, String[] roles);
 
     void deleteUser(long id);
 
