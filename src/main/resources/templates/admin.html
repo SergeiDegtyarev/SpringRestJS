@@ -3,9 +3,51 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="/static/styles/style.css" rel="stylesheet" th:href="@{/styles/style.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Users</title>
 </head>
 <body>
+
+<!-- Верхний бар -->
+
+<nav class="navbar navbar-dark bg-dark" th:object="${currentUser}">
+    <span class="navbar-brand mb-0 h1">
+
+        <!-- Для отображения имейла и роли залогинившегося -->
+
+        <strong><a th:text="${currentUser.getUsername()}"></a></strong>
+        <span class="text-start">with roles:
+            <a th:each="role : ${currentUser.getAuthorities()}" th:text="${role} + ' '"></a>
+        </span>
+    </span>
+
+    <!--    кнопка логаут-->
+
+    <ul class="navbar-nav px-4">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="/logout">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="row mt-5">
+    <div class="col-2 fixed-left">
+        <div th:fragment="leftMenu">
+            <ul class="nav flex-sm-column">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       th:classappend="${#httpServletRequest.getRequestURI().equals('/admin/') ? 'active bg-primary text-white' : ''}"
+                       href="#" th:href="@{/admin/}" aria-current="page">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       th:classappend="${#httpServletRequest.getRequestURI().equals('/user/') ? 'active bg-primary text-white' : ''}"
+                       href="#" th:href="@{/user}">User</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <div align="center">
     <h1>User management</h1>
