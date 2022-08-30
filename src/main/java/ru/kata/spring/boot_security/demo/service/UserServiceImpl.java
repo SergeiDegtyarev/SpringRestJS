@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
+        user.getAuthorities();
         return user;
     }
 }

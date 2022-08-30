@@ -35,7 +35,7 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -165,6 +165,30 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+        return id == user.id && age == user.age && username.equals(user.username) && firstName.equals(user.firstName) &&
+                lastName.equals(user.lastName) && email.equals(user.email) && password.equals(user.password) &&
+                roles.equals(user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + username.hashCode();
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + (int) age;
+        result = 31 * result + password.hashCode();
+        result = 31 * result + roles.hashCode();
+        return result;
     }
 
     @Override
