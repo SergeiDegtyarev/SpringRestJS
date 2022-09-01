@@ -189,8 +189,8 @@
                                             size="2" name="nameRoles" multiple="multiple">
                                         <option th:each="role : ${allRoles}"
                                                 th:value="${role.getRoleName()}"
-                                                th:text="${#strings.replace(role.getRoleName(), 'ROLE_', '')}"
-                                                th:selected="${role.getRoleName()} == USER">
+                                                th:text="${role.toString()}"
+                                                th:selected="${role.toString()} == 'USER'">
                                         </option>
                                     </select>
                                 </div>
@@ -273,8 +273,8 @@
                                             size="2" name="editRoles" multiple="multiple">
                                         <option th:each="role : ${allRoles}"
                                                 th:value="${role.getRoleName()}"
-                                                th:text="${#strings.replace(role.getRoleName(), 'ROLE_', '')}"
-                                                th:selected="${role.getRoleName()} == USER">
+                                                th:text="${role.toString()}"
+                                                th:selected="${role.toString()} == USER">
                                         </option>
                                     </select>
                                 </label>

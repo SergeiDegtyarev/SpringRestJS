@@ -103,12 +103,11 @@ public class User implements UserDetails {
     }
 
     public String getStringRoles() {
-        String[] strRoles = new String[roles.size()];
-        Object[] objRoles = roles.stream().map(Role::getRoleName).toArray();
-        for (int i = 0; i < roles.size(); i++) {
-            strRoles[i] = (String) objRoles[i];
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Role role : roles) {
+            stringBuilder.append(role.toString()).append(" ");
         }
-        return String.join(" ", strRoles) ;
+        return stringBuilder.toString();
     }
 
     public Set<Role> getRoles() {

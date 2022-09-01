@@ -46,26 +46,12 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping("new_user")
-    public String newUserForm(ModelMap model) {
-        /* Вывод формы для создания пользователя */
-        model.addAttribute("user", new User());
-        return "new_user";
-    }
-
     @PostMapping()
     public String createUser(@ModelAttribute("user") User user,
                              @RequestParam(value = "nameRoles") String[] roles) {
         /* Сохранение пользователя */
         userService.saveUser(user, roles);
         return "redirect:/admin";
-    }
-
-    @GetMapping("edit/{id}")
-    public String editUserForm(@PathVariable("id") long id, ModelMap model) {
-        /* Вывод формы для редактирования пользователя */
-        model.addAttribute("user", userService.findUserById(id));
-        return "edit_user";
     }
 
     @PostMapping("edit")
