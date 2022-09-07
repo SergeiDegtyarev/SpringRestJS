@@ -1,9 +1,9 @@
-package ru.kata.spring.boot_security.demo.service;
+package ru.kata.spring.rest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.dao.RoleDao;
-import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.spring.rest.dao.RoleDao;
+import ru.kata.spring.rest.model.Role;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package ru.kata.spring.boot_security.demo.dao;
+package ru.kata.spring.rest.dao;
 
 import org.springframework.stereotype.Repository;
-import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.spring.rest.model.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,10 +24,10 @@ public class RoleDaoImpl implements RoleDao {
         return query.getSingleResult();
     }
 
-    public Set<Role> getRolesSet(String[] roleNames) {
+    public Set<Role> getRolesSet(Set<Role> rolesWithoutPrefix) {
         Set<Role> roles = new HashSet<>();
-        for (String role : roleNames) {
-            roles.add(this.getRoleByName(role));
+        for (Role role : rolesWithoutPrefix) {
+            roles.add(this.getRoleByName("ROLE_" + role.getRoleName()));
         }
         return roles;
     }
