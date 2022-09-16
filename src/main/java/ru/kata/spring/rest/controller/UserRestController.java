@@ -13,7 +13,7 @@ import ru.kata.spring.rest.service.UserService;
 public class UserRestController {
     private final UserService userService;
 
-    @Autowired
+
     protected UserRestController(UserService userService) {
         this.userService = userService;
     }

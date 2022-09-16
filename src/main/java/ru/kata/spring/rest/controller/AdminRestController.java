@@ -13,7 +13,7 @@ public class AdminRestController {
 
     private final UserService userService;
 
-    @Autowired
+
     protected AdminRestController(UserService userService) {
         this.userService = userService;
     }
