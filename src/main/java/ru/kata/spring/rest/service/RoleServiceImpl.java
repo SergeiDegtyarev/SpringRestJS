@@ -12,7 +12,7 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleDao roleDao;
 
-    @Autowired
+
     protected RoleServiceImpl(RoleDao roleDao) {
         this.roleDao = roleDao;
     }

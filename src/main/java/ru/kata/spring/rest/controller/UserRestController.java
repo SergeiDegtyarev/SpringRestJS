@@ -19,7 +19,7 @@ public class UserRestController {
     }
 
     @GetMapping
-    public User getAuthorizedUser(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+    public User getAuthorizedUser(@AuthenticationPrincipal User user) {
         return userService.getUserByUsername(user.getUsername());
     }
 }

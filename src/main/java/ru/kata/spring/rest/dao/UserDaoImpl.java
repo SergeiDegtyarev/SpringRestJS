@@ -1,5 +1,7 @@
 package ru.kata.spring.rest.dao;
 
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.rest.model.User;
 
@@ -16,6 +18,14 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+//    private PasswordEncoder bCryptPasswordEncoder;
+//
+//    @Lazy
+//    public UserDaoImpl(PasswordEncoder bCryptPasswordEncoder) {
+//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+//
+//    }
+
     @Override
     public Optional<User> findUserById(long id) {
         return Optional.ofNullable(entityManager.find(User.class, id));
@@ -23,18 +33,21 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUsername(String username) {
-        TypedQuery<User> query = entityManager.createQuery(
-                "FROM User u WHERE u.username = ?1", User.class).setParameter(1, username);
-        return query.getSingleResult();
+        TypedQuery<User> q = (entityManager.createQuery("select u from User u " +
+                "join fetch u.roles where u.username = :name",User.class));
+        q.setParameter("name",username);
+        return q.getResultList().stream().findFirst().orElse(null);
     }
 
     @Override
     public void saveUser(User user) {
+//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         entityManager.persist(user);
     }
 
     @Override
     public void updateUser(User user) {
+//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         entityManager.merge(user);
     }
 
